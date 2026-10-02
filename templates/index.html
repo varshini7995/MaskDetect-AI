@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MaskDetect AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            font-family: "Inter", Arial, sans-serif;
+
+            color: #111a3d;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 86% 48%,
+                    rgba(190, 214, 255, 0.28),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 8% 80%,
+                    rgba(214, 201, 255, 0.24),
+                    transparent 25%
+                ),
+                linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #fcfcff 48%,
+                    #eef5ff 100%
+                );
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+            height: 88px;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 4.8%;
+
+            background: rgba(255,255,255,0.96);
+
+            border-bottom: 1px solid rgba(100,120,170,0.12);
+
+            position: relative;
+            z-index: 100;
+
+            backdrop-filter: blur(15px);
+        }
+
+
+        /* LOGO */
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            color: #111a3d;
+            text-decoration: none;
+
+            font-size: 25px;
+            font-weight: 900;
+
+            white-space: nowrap;
+        }
+
+        .brand-logo {
+            width: 68px;
+            height: 68px;
+
+            border-radius: 17px;
+
+            object-fit: contain;
+            display: block;
+        }
+
+
+        /* NAVIGATION */
+
+        .nav-links {
+            position: absolute;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            display: flex;
+            align-items: center;
+
+            gap: 45px;
+        }
+
+        .nav-links a {
+            position: relative;
+
+            color: #25345d;
+
+            text-decoration: none;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .nav-links a:hover {
+            color: #4b63ed;
+
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            bottom: -9px;
+
+            width: 0;
+            height: 3px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #7045f7,
+                    #258feb
+                );
+
+            transform: translateX(-50%);
+
+            transition: width 0.25s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+
+        /* NAV BUTTON */
+
+        .nav-button {
+            margin-left: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            padding: 15px 28px;
+
+            border-radius: 32px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #7045f7,
+                    #238feb
+                );
+
+            text-decoration: none;
+
+            font-size: 16px;
+            font-weight: 800;
+
+            box-shadow:
+                0 12px 27px rgba(78,76,229,0.25);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                filter 0.25s ease;
+        }
+
+        .nav-button:hover {
+            transform:
+                translateY(-4px)
+                scale(1.035);
+
+            box-shadow:
+                0 20px 38px rgba(78,76,229,0.40);
+
+            filter: brightness(1.08);
+        }
+
+        .nav-arrow {
+            font-size: 21px;
+
+            transition:
+                transform 0.25s ease;
+        }
+
+        .nav-button:hover .nav-arrow {
+            transform: translateX(5px);
+        }
+
+
+        /* =====================================================
+           HERO
+           IMPORTANT:
+           EXACTLY ONE SCREEN
+        ===================================================== */
+
+        .hero {
+            height: calc(100vh - 88px);
+
+            min-height: 600px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+
+            padding:
+                28px
+                4.8%
+                12px;
+        }
+
+
+        /* =====================================================
+           BACKGROUND BALLS
+        ===================================================== */
+
+        .ball {
+            position: absolute;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+
+        /* TOP RIGHT */
+
+        .ball-1 {
+            width: 330px;
+            height: 330px;
+
+            right: -115px;
+            top: -105px;
+
+            background:
+                rgba(176,207,255,0.32);
+        }
+
+
+        /* RIGHT CENTER */
+
+        .ball-2 {
+            width: 260px;
+            height: 260px;
+
+            right: 105px;
+            top: 125px;
+
+            background:
+                rgba(202,195,255,0.22);
+        }
+
+
+        /* LEFT BOTTOM */
+
+        .ball-3 {
+            width: 260px;
+            height: 260px;
+
+            left: -135px;
+            bottom: -145px;
+
+            background:
+                rgba(211,198,255,0.28);
+        }
+
+
+        /* =====================================================
+           NEW BALLS BEHIND DESCRIPTION
+        ===================================================== */
+
+        .description-ball-1 {
+            width: 210px;
+            height: 210px;
+
+            left: 28%;
+            top: 42%;
+
+            background:
+                rgba(200,218,255,0.20);
+
+            z-index: 0;
+        }
+
+        .description-ball-2 {
+            width: 145px;
+            height: 145px;
+
+            left: 42%;
+            top: 51%;
+
+            background:
+                rgba(214,201,255,0.20);
+
+            z-index: 0;
+        }
+
+        .description-ball-3 {
+            width: 110px;
+            height: 110px;
+
+            left: 33%;
+            top: 64%;
+
+            background:
+                rgba(181,212,255,0.17);
+
+            z-index: 0;
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .hero-main {
+            width: 100%;
+            max-width: 1500px;
+
+            margin: 0 auto;
+
+            flex: 1;
+
+            min-height: 0;
+
+            display: grid;
+
+            /*
+              Text and girl are close together
+            */
+
+            grid-template-columns:
+                49%
+                51%;
+
+            align-items: center;
+
+            position: relative;
+            z-index: 5;
+        }
+
+
+        /* =====================================================
+           LEFT SIDE
+        ===================================================== */
+
+        .hero-text {
+            position: relative;
+
+            z-index: 10;
+
+            padding-left: 0;
+        }
+
+
+        /* BADGE */
+
+        .badge {
+            display: inline-flex;
+
+            align-items: center;
+            gap: 9px;
+
+            padding: 10px 19px;
+
+            margin-bottom: 20px;
+
+            border-radius: 30px;
+
+            background:
+                #fff4d5;
+
+            color:
+                #df9900;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .star {
+            font-size: 17px;
+        }
+
+
+        /* TITLE */
+
+        .hero-title {
+            font-size:
+                clamp(58px, 5.2vw, 82px);
+
+            line-height: 0.96;
+
+            letter-spacing: -4px;
+
+            font-weight: 900;
+
+            color: #101a3e;
+
+            margin-bottom: 22px;
+        }
+
+        .blue-title {
+            display: block;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #238fea,
+                    #4f55f4
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+
+        /* SUBTITLE */
+
+        .hero-subtitle {
+            color: #304a77;
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            margin-bottom: 9px;
+
+            line-height: 1.4;
+        }
+
+
+        /* DESCRIPTION */
+
+        .hero-description {
+            max-width: 660px;
+
+            color: #6078a4;
+
+            font-size: 17px;
+
+            line-height: 1.65;
+
+            margin-bottom: 22px;
+
+            position: relative;
+
+            z-index: 3;
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .main-button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 13px;
+
+            padding: 16px 29px;
+
+            border-radius: 32px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #7045f7,
+                    #238feb
+                );
+
+            box-shadow:
+                0 14px 30px rgba(77,75,230,0.28);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                filter 0.25s ease;
+        }
+
+        .main-button:hover {
+            transform:
+                translateY(-5px)
+                scale(1.04);
+
+            box-shadow:
+                0 22px 42px rgba(75,76,230,0.43);
+
+            filter:
+                brightness(1.10);
+        }
+
+        .main-button:active {
+            transform: translateY(-1px);
+        }
+
+        .main-arrow {
+            font-size: 22px;
+
+            transition:
+                transform 0.25s ease;
+        }
+
+        .main-button:hover .main-arrow {
+            transform:
+                translateX(5px);
+        }
+
+
+        /* =====================================================
+           GIRL AREA
+        ===================================================== */
+
+        .hero-visual {
+            position: relative;
+
+            height: 100%;
+
+            min-height: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-start;
+
+            /*
+              IMPORTANT:
+              brings girl toward the text
+            */
+            padding-left: 0;
+        }
+
+
+        /* GIRL */
+
+        .girl-image {
+            width: min(455px, 100%);
+
+            height: auto;
+
+            display: block;
+
+            object-fit: contain;
+
+            position: relative;
+
+            z-index: 5;
+
+            /*
+              Move girl LEFT
+            */
+            transform:
+                translateX(-95px)
+                translateY(8px);
+
+            filter:
+                drop-shadow(
+                    0 20px 28px
+                    rgba(50,70,130,0.10)
+                );
+        }
+
+
+        /* =====================================================
+           SOFT BALLS BEHIND GIRL
+        ===================================================== */
+
+        .girl-ball-a {
+            position: absolute;
+
+            width: 360px;
+            height: 360px;
+
+            left: 40px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border-radius: 50%;
+
+            background:
+                rgba(197,209,255,0.23);
+
+            z-index: 1;
+        }
+
+        .girl-ball-b {
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            left: 250px;
+            top: 12%;
+
+            border-radius: 50%;
+
+            background:
+                rgba(212,198,255,0.22);
+
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           FOUR CARDS
+           FULL WIDTH / ONE ROW
+        ===================================================== */
+
+        .feature-row {
+            width: 100%;
+            max-width: 1500px;
+
+            margin:
+                0 auto
+                7px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 20px;
+
+            position: relative;
+
+            z-index: 30;
+
+            flex-shrink: 0;
+        }
+
+
+        .feature-card {
+            height: 96px;
+
+            width: 100%;
+
+            padding:
+                16px 23px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.94);
+
+            border:
+                1px solid rgba(107,131,194,0.17);
+
+            box-shadow:
+                0 12px 30px
+                rgba(52,73,126,0.08);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .feature-card:hover {
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 20px 38px
+                rgba(53,75,137,0.16);
+
+            border-color:
+                rgba(72,100,225,0.28);
+        }
+
+
+        /* ICON */
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+
+            min-width: 52px;
+
+            border-radius: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 24px;
+        }
+
+        .icon-blue {
+            background: #e8efff;
+        }
+
+        .icon-yellow {
+            background: #fff0c8;
+        }
+
+        .icon-purple {
+            background: #eee2ff;
+        }
+
+        .icon-green {
+            background: #dcf6e7;
+        }
+
+
+        /* CARD TEXT */
+
+        .feature-content {
+            display: flex;
+            flex-direction: column;
+
+            gap: 4px;
+        }
+
+        .feature-title {
+            color: #101a3e;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            line-height: 1.2;
+        }
+
+        .feature-description {
+            color: #7183a7;
+
+            font-size: 13px;
+
+            line-height: 1.35;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            height: 22px;
+
+            flex-shrink: 0;
+
+            text-align: center;
+
+            color: #7183a5;
+
+            font-size: 12px;
+
+            position: relative;
+
+            z-index: 30;
+        }
+
+
+        /* =====================================================
+           LARGE LAPTOP
+        ===================================================== */
+
+        @media (max-width: 1250px) {
+
+            .navbar {
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+
+            .hero {
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+
+            .nav-links {
+                gap: 32px;
+            }
+
+            .hero-title {
+                font-size: 64px;
+            }
+
+            .girl-image {
+                width: 410px;
+
+                transform:
+                    translateX(-70px)
+                    translateY(8px);
+            }
+
+            .feature-card {
+                padding-left: 17px;
+                padding-right: 17px;
+
+                gap: 13px;
+            }
+
+            .feature-title {
+                font-size: 14px;
+            }
+
+            .feature-description {
+                font-size: 12px;
+            }
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            body {
+                overflow-y: auto;
+            }
+
+            .navbar {
+                height: auto;
+
+                min-height: 78px;
+
+                flex-wrap: wrap;
+
+                padding: 12px 20px;
+            }
+
+            .nav-links {
+                position: static;
+
+                transform: none;
+
+                order: 3;
+
+                width: 100%;
+
+                justify-content: center;
+
+                gap: 24px;
+
+                padding-bottom: 5px;
+            }
+
+            .hero {
+                height: auto;
+
+                min-height: 100vh;
+
+                overflow: hidden;
+
+                padding:
+                    35px 25px 20px;
+            }
+
+            .hero-main {
+                grid-template-columns: 1fr;
+
+                min-height: auto;
+
+                text-align: center;
+            }
+
+            .hero-text {
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: center;
+            }
+
+            .hero-description {
+                max-width: 700px;
+            }
+
+            .hero-visual {
+                min-height: 390px;
+
+                justify-content: center;
+            }
+
+            .girl-image {
+                width: 400px;
+
+                transform:
+                    translateX(0);
+            }
+
+            .feature-row {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .footer {
+                margin-top: 10px;
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .brand {
+                font-size: 20px;
+            }
+
+            .brand-logo {
+                width: 43px;
+                height: 43px;
+                object-fit: contain;
+            }
+
+            .nav-button {
+                padding: 12px 18px;
+
+                font-size: 14px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .hero-title {
+                font-size: 48px;
+
+                letter-spacing: -2px;
+            }
+
+            .hero-subtitle {
+                font-size: 15px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .girl-image {
+                width: 330px;
+            }
+
+            .feature-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ===================================================== -->
+
+    <header class="navbar">
+
+
+        <a href="{{ url_for('home') }}"
+           class="brand">
+
+            <img
+                src="{{ url_for('static', filename='logo.png') }}"
+                alt="MaskDetect AI Logo"
+                class="brand-logo"
+            >
+
+            <span>
+                MaskDetect AI
+            </span>
+
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="{{ url_for('about_page') }}">
+                About
+            </a>
+
+            <a href="{{ url_for('features_page') }}">
+                Features
+            </a>
+
+            <a href="#how">
+                How it Works
+            </a>
+
+        </nav>
+
+
+        <a href="{{ url_for('login') }}"
+           class="nav-button">
+
+            Get Started
+
+            <span class="nav-arrow">
+                →
+            </span>
+
+        </a>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         HERO
+    ===================================================== -->
+
+    <main class="hero"
+          id="home">
+
+
+        <!-- BACKGROUND BALLS -->
+
+        <div class="ball ball-1"></div>
+
+        <div class="ball ball-2"></div>
+
+        <div class="ball ball-3"></div>
+
+
+        <!-- BALLS BEHIND DESCRIPTION -->
+
+        <div class="ball description-ball-1"></div>
+
+        <div class="ball description-ball-2"></div>
+
+        <div class="ball description-ball-3"></div>
+
+
+        <!-- =================================================
+             MAIN AREA
+        ================================================= -->
+
+        <section class="hero-main">
+
+
+            <!-- LEFT -->
+
+            <div class="hero-text"
+                 id="about">
+
+
+                <div class="badge">
+
+                    <span class="star">
+                        ★
+                    </span>
+
+                    AI Powered Safety Solution
+
+                </div>
+
+
+                <h1 class="hero-title">
+
+                    Face Mask
+
+                    <span class="blue-title">
+                        Detection
+                    </span>
+
+                </h1>
+
+
+                <p class="hero-subtitle">
+
+                    Stay Safe | Stay Healthy | Build a Safer Tomorrow
+
+                </p>
+
+
+                <p class="hero-description">
+
+                    Detect whether a person is wearing a face mask
+                    using advanced Deep Learning technology.
+                    Simple, Fast and Accurate.
+
+                </p>
+
+
+                <a href="{{ url_for('login') }}"
+                   class="main-button">
+
+                    Get Started
+
+                    <span class="main-arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 GIRL
+            ================================================= -->
+
+            <div class="hero-visual">
+
+
+                <!-- Soft background balls -->
+
+                <div class="girl-ball-a"></div>
+
+                <div class="girl-ball-b"></div>
+
+
+                <!-- Existing AI girl -->
+
+                <img
+                    src="{{ url_for('static', filename='ai-character.png') }}"
+                    alt="AI Face Mask Detection Assistant"
+                    class="girl-image"
+                >
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             FOUR CARDS
+        ================================================= -->
+
+        <section class="feature-row"
+                 id="features">
+
+
+            <!-- 1 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon icon-blue">
+                    🛡️
+                </div>
+
+                <div class="feature-content">
+
+                    <div class="feature-title">
+                        High Accuracy
+                    </div>
+
+                    <div class="feature-description">
+                        95%+ reliable detection
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 2 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon icon-yellow">
+                    ⚡
+                </div>
+
+                <div class="feature-content">
+
+                    <div class="feature-title">
+                        Real-time
+                    </div>
+
+                    <div class="feature-description">
+                        Fast mask detection
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 3 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon icon-purple">
+                    ✨
+                </div>
+
+                <div class="feature-content">
+
+                    <div class="feature-title">
+                        Easy to Use
+                    </div>
+
+                    <div class="feature-description">
+                        Simple and friendly UI
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 4 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon icon-green">
+                    🔒
+                </div>
+
+                <div class="feature-content">
+
+                    <div class="feature-title">
+                        Secure &amp; Private
+                    </div>
+
+                    <div class="feature-description">
+                        Safe detection experience
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- HOW IT WORKS ANCHOR -->
+
+        <div id="how"></div>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            © 2026 MaskDetect AI. All rights reserved.
+
+        </footer>
+
+
+    </main>
+
+
+</body>
+</html>

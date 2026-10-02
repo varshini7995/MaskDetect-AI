@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About - MaskDetect AI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+
+            color: #182546;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f7f1ff 0%,
+                    #f8f9ff 48%,
+                    #edf6ff 100%
+                );
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+
+            height: 108px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #e6e8f0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 85px;
+
+            position: relative;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            text-decoration: none;
+        }
+
+
+        /* UPDATED LOGO */
+
+        .logo-icon {
+
+            width: 68px;
+
+            height: 68px;
+
+            border-radius: 17px;
+
+            object-fit: contain;
+
+            display: block;
+        }
+
+
+        .logo-text {
+
+            color: #172548;
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.8px;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 54px;
+
+            margin-left: 90px;
+        }
+
+
+        .nav-links a {
+
+            position: relative;
+
+            text-decoration: none;
+
+            color: #182546;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            display: inline-block;
+
+            transition:
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #6847e8;
+
+            transform: translateY(-4px);
+
+            animation:
+                navBounce 0.35s ease;
+        }
+
+
+        .nav-links a.active {
+
+            color: #6746e8;
+        }
+
+
+        .nav-links a.active::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: -12px;
+
+            height: 4px;
+
+            border-radius: 5px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #7045ee,
+                    #398de9
+                );
+        }
+
+
+        .get-started {
+
+            min-width: 205px;
+
+            height: 64px;
+
+            padding: 0 28px;
+
+            border-radius: 35px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 13px;
+
+            text-decoration: none;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #7045ee,
+                    #2c91ea
+                );
+
+            box-shadow:
+                0 13px 28px
+                rgba(80, 70, 220, 0.22);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+        }
+
+
+        .get-started:hover {
+
+            transform: translateY(-5px);
+
+            filter: brightness(1.08);
+
+            box-shadow:
+                0 18px 35px
+                rgba(80, 70, 220, 0.35);
+
+            animation:
+                buttonBounce 0.4s ease;
+        }
+
+
+        .arrow {
+
+            font-size: 24px;
+
+            line-height: 1;
+        }
+
+
+        /* =========================================
+           MAIN PAGE
+        ========================================= */
+
+        .about-page {
+
+            position: relative;
+
+            width: 100%;
+
+            height: calc(100vh - 108px);
+
+            overflow: hidden;
+
+            padding-top: 45px;
+        }
+
+
+        /* =========================================
+           BACKGROUND CIRCLES
+        ========================================= */
+
+        .circle {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+
+        .circle-left {
+
+            width: 170px;
+
+            height: 170px;
+
+            left: -85px;
+
+            top: 45px;
+
+            background:
+                rgba(127, 91, 235, 0.11);
+        }
+
+
+        .circle-top-right {
+
+            width: 155px;
+
+            height: 155px;
+
+            right: -55px;
+
+            top: -60px;
+
+            background:
+                rgba(75, 143, 235, 0.12);
+        }
+
+
+        .circle-girl {
+
+            width: 300px;
+
+            height: 300px;
+
+            right: 115px;
+
+            top: 60px;
+
+            background:
+                rgba(119, 91, 236, 0.08);
+        }
+
+
+        .circle-bottom-right {
+
+            width: 155px;
+
+            height: 155px;
+
+            right: -40px;
+
+            bottom: -45px;
+
+            background:
+                rgba(75, 143, 235, 0.10);
+        }
+
+
+        .circle-bottom {
+
+            width: 110px;
+
+            height: 110px;
+
+            left: 31%;
+
+            bottom: -60px;
+
+            background:
+                rgba(128, 101, 239, 0.07);
+        }
+
+
+        /* =========================================
+           CONTENT
+        ========================================= */
+
+        .about-content {
+
+            position: relative;
+
+            z-index: 10;
+
+            width: calc(100% - 170px);
+
+            max-width: 1500px;
+
+            height: 100%;
+
+            margin: 0 auto;
+        }
+
+
+        .about-text {
+
+            width: 58%;
+
+            position: relative;
+
+            z-index: 20;
+        }
+
+
+        /* =========================================
+           ABOUT BADGE
+        ========================================= */
+
+        .about-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            height: 40px;
+
+            padding: 0 20px;
+
+            border-radius: 22px;
+
+            border: 1.5px solid #8d72f2;
+
+            background:
+                rgba(255, 255, 255, 0.72);
+
+            color: #6947e9;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================================
+           TITLE
+        ========================================= */
+
+        .about-title {
+
+            font-size: 50px;
+
+            line-height: 1.08;
+
+            letter-spacing: -1.8px;
+
+            font-weight: 850;
+
+            margin-bottom: 23px;
+
+            color: #172548;
+        }
+
+
+        .about-title .highlight {
+
+            color: #6946e8;
+        }
+
+
+        /* =========================================
+           DESCRIPTION
+        ========================================= */
+
+        .about-description {
+
+            width: 760px;
+
+            max-width: 100%;
+
+            color: #5e759d;
+
+            font-size: 18px;
+
+            line-height: 1.65;
+
+            font-weight: 500;
+        }
+
+
+        /* =========================================
+           GIRL
+        ========================================= */
+
+        .about-girl {
+
+            position: absolute;
+
+            width: 570px;
+
+            height: 570px;
+
+            object-fit: contain;
+
+            object-position: center;
+
+            right: 65px;
+
+            top: 40px;
+
+            z-index: 8;
+
+            pointer-events: none;
+
+            filter:
+                drop-shadow(
+                    0 18px 24px
+                    rgba(57, 68, 125, 0.08)
+                );
+        }
+
+
+        /* =========================================
+           FOUR INFORMATION CARDS
+        ========================================= */
+
+        .info-card {
+
+            position: absolute;
+
+            left: 0;
+
+            top: 250px;
+
+            width: 1080px;
+
+            max-width: 100%;
+
+            height: 190px;
+
+            background:
+                rgba(255, 255, 255, 0.98);
+
+            border: 1px solid #dfe3ee;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 20px 45px
+                rgba(60, 70, 130, 0.15);
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            overflow: hidden;
+
+            z-index: 30;
+        }
+
+
+        /* =========================================
+           INDIVIDUAL CARD
+        ========================================= */
+
+        .info-item {
+
+            position: relative;
+
+            padding: 25px 28px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            justify-content: center;
+
+            transition:
+                background 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .info-item:not(:last-child)::after {
+
+            content: "";
+
+            position: absolute;
+
+            right: 0;
+
+            top: 25px;
+
+            bottom: 25px;
+
+            width: 1px;
+
+            background: #e1e5ef;
+        }
+
+
+        .info-item:hover {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f4f0ff
+                );
+
+            transform: translateY(-3px);
+        }
+
+
+        /* =========================================
+           COLORFUL ICONS
+        ========================================= */
+
+        .info-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            margin-bottom: 13px;
+
+            box-shadow:
+                0 8px 18px
+                rgba(60, 70, 130, 0.10);
+        }
+
+
+        .mission-icon {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eee7ff,
+                    #dcd1ff
+                );
+        }
+
+
+        .vision-icon {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e4f2ff,
+                    #cde5ff
+                );
+        }
+
+
+        .values-icon {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e6fff4,
+                    #cdf7e4
+                );
+        }
+
+
+        .team-icon {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff1df,
+                    #ffe2bd
+                );
+        }
+
+
+        .info-title {
+
+            color: #1a294c;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            margin-bottom: 6px;
+        }
+
+
+        .info-description {
+
+            color: #7183a5;
+
+            font-size: 13px;
+
+            line-height: 1.45;
+
+            font-weight: 500;
+
+            max-width: 190px;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+
+            position: absolute;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: 15px;
+
+            text-align: center;
+
+            color: #8795b0;
+
+            font-size: 12px;
+
+            font-weight: 500;
+
+            z-index: 50;
+        }
+
+
+        /* =========================================
+           ANIMATIONS
+        ========================================= */
+
+        @keyframes navBounce {
+
+            0% {
+                transform: translateY(-4px);
+            }
+
+            40% {
+                transform: translateY(-8px);
+            }
+
+            70% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(-4px);
+            }
+        }
+
+
+        @keyframes buttonBounce {
+
+            0% {
+                transform: translateY(-5px);
+            }
+
+            40% {
+                transform: translateY(-9px);
+            }
+
+            70% {
+                transform: translateY(-6px);
+            }
+
+            100% {
+                transform: translateY(-5px);
+            }
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1250px) {
+
+            .navbar {
+
+                padding: 0 55px;
+            }
+
+
+            .nav-links {
+
+                gap: 35px;
+
+                margin-left: 40px;
+            }
+
+
+            .about-content {
+
+                width: calc(100% - 110px);
+            }
+
+
+            .about-title {
+
+                font-size: 44px;
+            }
+
+
+            .about-girl {
+
+                width: 500px;
+
+                height: 500px;
+
+                right: 10px;
+            }
+
+
+            .info-card {
+
+                width: 100%;
+
+                max-width: 1000px;
+            }
+        }
+
+
+        @media (max-width: 950px) {
+
+            body {
+
+                overflow: auto;
+            }
+
+
+            .navbar {
+
+                height: 82px;
+
+                padding: 0 25px;
+            }
+
+
+            .logo-icon {
+
+                width: 50px;
+
+                height: 50px;
+
+                border-radius: 13px;
+            }
+
+
+            .logo-text {
+
+                font-size: 22px;
+            }
+
+
+            .nav-links {
+
+                gap: 18px;
+
+                margin-left: 20px;
+            }
+
+
+            .nav-links a {
+
+                font-size: 13px;
+            }
+
+
+            .get-started {
+
+                min-width: 135px;
+
+                height: 48px;
+
+                font-size: 13px;
+            }
+
+
+            .about-page {
+
+                height: auto;
+
+                min-height:
+                    calc(100vh - 82px);
+
+                overflow: visible;
+
+                padding:
+                    35px 0 50px;
+            }
+
+
+            .about-content {
+
+                width:
+                    calc(100% - 45px);
+
+                height: auto;
+            }
+
+
+            .about-text {
+
+                width: 100%;
+            }
+
+
+            .about-title {
+
+                font-size: 40px;
+            }
+
+
+            .about-girl {
+
+                position: relative;
+
+                width: 420px;
+
+                height: 420px;
+
+                right: auto;
+
+                top: auto;
+
+                display: block;
+
+                margin:
+                    -50px auto 0;
+            }
+
+
+            .info-card {
+
+                position: relative;
+
+                left: auto;
+
+                top: auto;
+
+                margin-top: -30px;
+
+                width: 100%;
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .info-item:nth-child(2)::after {
+
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 0 15px;
+            }
+
+
+            .logo-text {
+
+                font-size: 18px;
+            }
+
+
+            .nav-links {
+
+                gap: 10px;
+            }
+
+
+            .nav-links a {
+
+                font-size: 10px;
+            }
+
+
+            .get-started {
+
+                min-width: 105px;
+
+                padding: 0 12px;
+
+                height: 42px;
+
+                font-size: 11px;
+            }
+
+
+            .arrow {
+
+                font-size: 17px;
+            }
+
+
+            .about-content {
+
+                width:
+                    calc(100% - 28px);
+            }
+
+
+            .about-title {
+
+                font-size: 32px;
+            }
+
+
+            .about-description {
+
+                font-size: 15px;
+            }
+
+
+            .about-girl {
+
+                width: 330px;
+
+                height: 330px;
+            }
+
+
+            .info-card {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .info-item:not(:last-child)::after {
+
+                display: none;
+            }
+
+
+            .info-item {
+
+                border-bottom:
+                    1px solid #e5e7ef;
+            }
+
+
+            .info-item:last-child {
+
+                border-bottom: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         HEADER
+    ========================================= -->
+
+    <header class="navbar">
+
+
+        <a
+            href="{{ url_for('home') }}"
+            class="logo"
+        >
+
+            <img
+                src="{{ url_for('static', filename='logo.png') }}"
+                class="logo-icon"
+                alt="MaskDetect AI Logo"
+            >
+
+
+            <div class="logo-text">
+                MaskDetect AI
+            </div>
+
+        </a>
+
+
+        <nav class="nav-links">
+
+
+            <a
+                href="{{ url_for('home') }}"
+            >
+                Home
+            </a>
+
+
+            <a
+                href="{{ url_for('about_page') }}"
+                class="active"
+            >
+                About
+            </a>
+
+
+            <a href="{{ url_for('features_page') }}">
+                Features
+            </a>
+
+
+            <a
+                href="{{ url_for('home') }}#how-it-works"
+            >
+                How it Works
+            </a>
+
+
+        </nav>
+
+
+        <a
+            href="{{ url_for('login') }}"
+            class="get-started"
+        >
+
+            Get Started
+
+            <span class="arrow">
+                →
+            </span>
+
+        </a>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN ABOUT PAGE
+    ========================================= -->
+
+    <main class="about-page">
+
+
+        <!-- BACKGROUND -->
+
+        <div class="circle circle-left"></div>
+
+        <div class="circle circle-top-right"></div>
+
+        <div class="circle circle-girl"></div>
+
+        <div class="circle circle-bottom-right"></div>
+
+        <div class="circle circle-bottom"></div>
+
+
+        <!-- =====================================
+             CONTENT
+        ===================================== -->
+
+        <section class="about-content">
+
+
+            <!-- TEXT -->
+
+            <div class="about-text">
+
+
+                <div class="about-badge">
+                    About Us
+                </div>
+
+
+                <h1 class="about-title">
+
+                    About
+
+                    <span class="highlight">
+                        MaskDetect AI
+                    </span>
+
+                </h1>
+
+
+                <p class="about-description">
+
+                    MaskDetect AI is an intelligent system that helps create
+                    safer and healthier environments by detecting whether
+                    people are wearing face masks using advanced Deep Learning
+                    technology.
+
+                </p>
+
+
+                <!-- =================================
+                     FOUR CARDS
+                ================================= -->
+
+                <div class="info-card">
+
+
+                    <!-- MISSION -->
+
+                    <div class="info-item">
+
+
+                        <div
+                            class="info-icon mission-icon"
+                        >
+                            🎯
+                        </div>
+
+
+                        <div class="info-title">
+                            Our Mission
+                        </div>
+
+
+                        <div class="info-description">
+                            Promote public safety with AI.
+                        </div>
+
+                    </div>
+
+
+                    <!-- VISION -->
+
+                    <div class="info-item">
+
+
+                        <div
+                            class="info-icon vision-icon"
+                        >
+                            👁️
+                        </div>
+
+
+                        <div class="info-title">
+                            Our Vision
+                        </div>
+
+
+                        <div class="info-description">
+                            A healthier and safer tomorrow.
+                        </div>
+
+                    </div>
+
+
+                    <!-- VALUES -->
+
+                    <div class="info-item">
+
+
+                        <div
+                            class="info-icon values-icon"
+                        >
+                            🛡️
+                        </div>
+
+
+                        <div class="info-title">
+                            Our Values
+                        </div>
+
+
+                        <div class="info-description">
+                            Safety, Innovation, Accessibility.
+                        </div>
+
+                    </div>
+
+
+                    <!-- TEAM -->
+
+                    <div class="info-item">
+
+
+                        <div
+                            class="info-icon team-icon"
+                        >
+                            👥
+                        </div>
+
+
+                        <div class="info-title">
+                            Our Team
+                        </div>
+
+
+                        <div class="info-description">
+                            Passionate developers and AI enthusiasts.
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 GIRL
+            ================================= -->
+
+            <img
+                src="{{ url_for('static', filename='ai-character-about.png') }}"
+                class="about-girl"
+                alt="MaskDetect AI assistant"
+            >
+
+
+        </section>
+
+
+        <!-- =================================
+             FOOTER
+        ================================= -->
+
+        <div class="footer">
+
+            © 2026 MaskDetect AI. All rights reserved.
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

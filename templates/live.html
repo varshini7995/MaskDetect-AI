@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MaskDetect AI - Live Camera</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        body {
+
+            overflow: hidden;
+
+            color: #1d2948;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f0ff 0%,
+                    #f8f8ff 48%,
+                    #edf5ff 100%
+                );
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+
+            height: 78px;
+
+            background: #ffffff;
+
+            border-bottom:
+                1px solid #e8e9f1;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 49px;
+
+            position: relative;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            text-decoration: none;
+        }
+
+
+        .logo-shield {
+            width: 68px;
+            height: 68px;
+            border-radius: 17px;
+            object-fit: contain;
+            display: block;
+        }
+
+
+        .logo-text {
+
+            color: #2769dc;
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.4px;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 37px;
+        }
+
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: #4b5267;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            display: inline-block;
+
+            transition:
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .nav-links a.active {
+
+            color: #276bea;
+
+            font-weight: 800;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #276bea;
+
+            transform:
+                translateY(-3px);
+
+            animation:
+                navBounce 0.35s ease;
+        }
+
+
+        /* =====================================================
+           MAIN PAGE
+        ===================================================== */
+
+        .page {
+
+            position: relative;
+
+            width: 100%;
+
+            height:
+                calc(100vh - 78px);
+
+            overflow: hidden;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: flex-start;
+        }
+
+
+        /* =====================================================
+           BACKGROUND CIRCLES
+        ===================================================== */
+
+        .bg-circle {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+
+        .bg-circle.one {
+
+            width: 145px;
+            height: 145px;
+
+            left: -40px;
+            top: 22px;
+
+            background:
+                rgba(132, 105, 239, 0.10);
+        }
+
+
+        .bg-circle.two {
+
+            width: 145px;
+            height: 145px;
+
+            right: 28px;
+            bottom: 45px;
+
+            background:
+                rgba(75, 143, 235, 0.12);
+        }
+
+
+        .bg-circle.three {
+
+            width: 84px;
+            height: 84px;
+
+            right: 15%;
+            top: 92px;
+
+            background:
+                rgba(151, 125, 241, 0.08);
+        }
+
+
+        /* =====================================================
+           FALLING DECORATIONS
+        ===================================================== */
+
+        .falling-decor {
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            z-index: 2;
+
+            pointer-events: none;
+        }
+
+
+        .falling-item {
+
+            position: absolute;
+
+            top: -30px;
+
+            display: block;
+
+            opacity: 0;
+
+            animation:
+                fallingAnimation
+                linear
+                infinite;
+
+            pointer-events: none;
+        }
+
+
+        .falling-square {
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 1px;
+
+            transform:
+                rotate(45deg);
+        }
+
+
+        .falling-dot {
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+        }
+
+
+        .falling-line {
+
+            width: 18px;
+            height: 3px;
+
+            border-radius: 5px;
+
+            transform:
+                rotate(45deg);
+        }
+
+
+        .pink {
+            background: #f27ec7;
+        }
+
+
+        .purple {
+            background: #a77af3;
+        }
+
+
+        .blue {
+            background: #55a9ec;
+        }
+
+
+        .yellow {
+            background: #f3c84b;
+        }
+
+
+        .cyan {
+            background: #5fd0df;
+        }
+
+
+        .fall-1 {
+            left: 4%;
+            animation-duration: 14s;
+            animation-delay: -3s;
+        }
+
+
+        .fall-2 {
+            left: 10%;
+            animation-duration: 17s;
+            animation-delay: -9s;
+        }
+
+
+        .fall-3 {
+            left: 17%;
+            animation-duration: 13s;
+            animation-delay: -5s;
+        }
+
+
+        .fall-4 {
+            left: 24%;
+            animation-duration: 18s;
+            animation-delay: -13s;
+        }
+
+
+        .fall-5 {
+            left: 31%;
+            animation-duration: 15s;
+            animation-delay: -4s;
+        }
+
+
+        .fall-6 {
+            left: 39%;
+            animation-duration: 19s;
+            animation-delay: -15s;
+        }
+
+
+        .fall-7 {
+            left: 47%;
+            animation-duration: 14s;
+            animation-delay: -7s;
+        }
+
+
+        .fall-8 {
+            left: 54%;
+            animation-duration: 17s;
+            animation-delay: -11s;
+        }
+
+
+        .fall-9 {
+            left: 61%;
+            animation-duration: 13s;
+            animation-delay: -2s;
+        }
+
+
+        .fall-10 {
+            left: 68%;
+            animation-duration: 18s;
+            animation-delay: -12s;
+        }
+
+
+        .fall-11 {
+            left: 75%;
+            animation-duration: 15s;
+            animation-delay: -6s;
+        }
+
+
+        .fall-12 {
+            left: 82%;
+            animation-duration: 19s;
+            animation-delay: -16s;
+        }
+
+
+        .fall-13 {
+            left: 89%;
+            animation-duration: 14s;
+            animation-delay: -8s;
+        }
+
+
+        .fall-14 {
+            left: 95%;
+            animation-duration: 17s;
+            animation-delay: -1s;
+        }
+
+
+        .fall-15 {
+            left: 8%;
+            animation-duration: 20s;
+            animation-delay: -17s;
+        }
+
+
+        .fall-16 {
+            left: 28%;
+            animation-duration: 16s;
+            animation-delay: -10s;
+        }
+
+
+        .fall-17 {
+            left: 50%;
+            animation-duration: 20s;
+            animation-delay: -14s;
+        }
+
+
+        .fall-18 {
+            left: 73%;
+            animation-duration: 16s;
+            animation-delay: -5s;
+        }
+
+
+        .fall-19 {
+            left: 92%;
+            animation-duration: 20s;
+            animation-delay: -12s;
+        }
+
+
+        @keyframes fallingAnimation {
+
+            0% {
+
+                transform:
+                    translate3d(
+                        0,
+                        -40px,
+                        0
+                    )
+                    rotate(0deg);
+
+                opacity: 0;
+            }
+
+
+            8% {
+
+                opacity: 0.55;
+            }
+
+
+            25% {
+
+                transform:
+                    translate3d(
+                        14px,
+                        25vh,
+                        0
+                    )
+                    rotate(80deg);
+
+                opacity: 0.55;
+            }
+
+
+            50% {
+
+                transform:
+                    translate3d(
+                        -12px,
+                        50vh,
+                        0
+                    )
+                    rotate(160deg);
+
+                opacity: 0.50;
+            }
+
+
+            75% {
+
+                transform:
+                    translate3d(
+                        15px,
+                        75vh,
+                        0
+                    )
+                    rotate(240deg);
+
+                opacity: 0.40;
+            }
+
+
+            100% {
+
+                transform:
+                    translate3d(
+                        -10px,
+                        110vh,
+                        0
+                    )
+                    rotate(320deg);
+
+                opacity: 0;
+            }
+
+        }
+
+
+        /* =====================================================
+           LIVE CONTAINER
+        ===================================================== */
+
+        .live-container {
+
+            width: 1080px;
+
+            max-width:
+                calc(100% - 50px);
+
+            margin-top: 25px;
+
+            position: relative;
+
+            z-index: 10;
+
+            text-align: center;
+        }
+
+
+        .page-title {
+
+            color: #182546;
+
+            font-size: 35px;
+
+            line-height: 1.15;
+
+            font-weight: 900;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .page-subtitle {
+
+            color: #737d95;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           MAIN LIVE LAYOUT
+        ===================================================== */
+
+        .live-layout {
+
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+                1.72fr
+                0.72fr;
+
+            gap: 22px;
+
+            align-items: start;
+        }
+
+
+        /* =====================================================
+           CAMERA CARD
+        ===================================================== */
+
+        .camera-card {
+
+            height: 510px;
+
+            background: #ffffff;
+
+            border:
+                1px solid #dce1ed;
+
+            border-radius: 20px;
+
+            padding: 16px;
+
+            box-shadow:
+                0 9px 25px
+                rgba(66, 75, 133, 0.08);
+
+            display: flex;
+
+            flex-direction: column;
+
+            transition:
+                background 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .camera-card:hover {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #eee8ff 45%,
+                    #e3f1ff 100%
+                );
+
+            border-color: #91aaf3;
+
+            box-shadow:
+                0 20px 45px
+                rgba(66, 78, 165, 0.20);
+
+            transform:
+                translateY(-5px);
+
+            animation:
+                cardBounce 0.45s ease;
+        }
+
+
+        .camera-frame {
+
+            width: 100%;
+
+            height: 420px;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            background: #101426;
+
+            position: relative;
+        }
+
+
+        .camera-frame img {
+
+            width: 100%;
+
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+
+            object-position: center;
+        }
+
+
+        .camera-off {
+
+            display: none;
+
+            position: absolute;
+
+            inset: 0;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f0ff,
+                    #edf5ff
+                );
+
+            color: #59657d;
+
+            font-size: 16px;
+
+            font-weight: 800;
+        }
+
+
+        .camera-off-icon {
+
+            width: 54px;
+            height: 54px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 24px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7047e9,
+                    #398fe9
+                );
+        }
+
+
+        /* =====================================================
+           CAMERA BUTTONS
+        ===================================================== */
+
+        .camera-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 16px;
+
+            margin-top: 14px;
+        }
+
+
+        .camera-button {
+
+            height: 46px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 900;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .stop-button {
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #7047e9,
+                    #398fe9
+                );
+
+            box-shadow:
+                0 7px 17px
+                rgba(83, 72, 216, 0.21);
+        }
+
+
+        .back-button {
+
+            color: #4b5872;
+
+            background: #f1f3f7;
+
+            border:
+                1px solid #e1e5ed;
+        }
+
+
+        .camera-button:hover {
+
+            transform:
+                translateY(-5px);
+
+            animation:
+                buttonBounce 0.4s ease;
+        }
+
+
+        .stop-button:hover {
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #914ff5,
+                    #279af3
+                );
+
+            box-shadow:
+                0 14px 27px
+                rgba(83, 72, 216, 0.35);
+        }
+
+
+        .back-button:hover {
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #7047e9,
+                    #398fe9
+                );
+
+            border-color: transparent;
+
+            box-shadow:
+                0 12px 24px
+                rgba(83, 72, 216, 0.25);
+        }
+
+
+        /* =====================================================
+           STATS COLUMN
+        ===================================================== */
+
+        .stats-column {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+
+        .stat-card {
+
+            height: 112px;
+
+            background: #ffffff;
+
+            border:
+                1px solid #dce1ed;
+
+            border-radius: 18px;
+
+            padding: 19px 21px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            box-shadow:
+                0 8px 22px
+                rgba(66, 75, 133, 0.07);
+
+            transition:
+                background 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .stat-card:hover {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #eee8ff 45%,
+                    #e3f1ff 100%
+                );
+
+            border-color: #91aaf3;
+
+            box-shadow:
+                0 17px 35px
+                rgba(66, 78, 165, 0.18);
+
+            transform:
+                translateY(-7px);
+
+            animation:
+                cardBounce 0.45s ease;
+        }
+
+
+        .stat-content {
+
+            text-align: left;
+        }
+
+
+        .stat-label {
+
+            color: #8790a5;
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            letter-spacing: 0.6px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 5px;
+        }
+
+
+        .stat-value {
+
+            color: #7047e9;
+
+            font-size: 30px;
+
+            line-height: 1;
+
+            font-weight: 900;
+        }
+
+
+        .stat-icon {
+
+            width: 58px;
+            height: 58px;
+
+            border-radius: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 28px;
+
+            transition:
+                transform 0.25s ease,
+                filter 0.25s ease;
+        }
+
+
+        .stat-card:hover
+        .stat-icon {
+
+            transform:
+                scale(1.10)
+                translateY(-3px);
+
+            filter:
+                brightness(1.06);
+        }
+
+
+        .faces-icon {
+
+            background: #f5edff;
+
+            color: #7047e9;
+        }
+
+
+        .mask-icon {
+
+            background: #ecfff5;
+
+            color: #1aa96b;
+        }
+
+
+        .no-mask-icon {
+
+            background: #fff1f1;
+
+            color: #ef4444;
+        }
+
+
+        .accuracy-icon {
+
+            background: #edf5ff;
+
+            color: #398fe9;
+        }
+
+
+        /* =====================================================
+           SMALL STATUS TEXT
+        ===================================================== */
+
+        .camera-status {
+
+            position: absolute;
+
+            top: 13px;
+            left: 13px;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(24, 37, 70, 0.88);
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            z-index: 5;
+
+            backdrop-filter:
+                blur(5px);
+        }
+
+
+        .status-dot {
+
+            display: inline-block;
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #27d17f;
+
+            margin-right: 5px;
+        }
+
+
+        /* =====================================================
+           ANIMATIONS
+        ===================================================== */
+
+        @keyframes cardBounce {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-9px);
+            }
+
+            55% {
+                transform: translateY(-4px);
+            }
+
+            75% {
+                transform: translateY(-7px);
+            }
+
+            100% {
+                transform: translateY(-5px);
+            }
+        }
+
+
+        @keyframes buttonBounce {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            35% {
+                transform: translateY(-7px);
+            }
+
+            65% {
+                transform: translateY(-3px);
+            }
+
+            100% {
+                transform: translateY(-5px);
+            }
+        }
+
+
+        @keyframes navBounce {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+
+            100% {
+                transform: translateY(-3px);
+            }
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .live-container {
+
+                width: 900px;
+            }
+
+
+            .live-layout {
+
+                grid-template-columns:
+                    1.55fr
+                    0.75fr;
+            }
+
+
+            .camera-card {
+
+                height: 480px;
+            }
+
+
+            .camera-frame {
+
+                height: 390px;
+            }
+
+
+            .stat-card {
+
+                height: 105px;
+            }
+        }
+
+
+        @media (max-width: 760px) {
+
+            body {
+                overflow: auto;
+            }
+
+
+            .page {
+
+                height: auto;
+
+                min-height:
+                    calc(100vh - 78px);
+
+                padding-bottom: 30px;
+            }
+
+
+            .navbar {
+
+                padding: 0 18px;
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+            }
+
+
+            .nav-links a {
+
+                font-size: 11px;
+            }
+
+
+            .logo-text {
+
+                font-size: 18px;
+            }
+
+
+            .live-container {
+
+                width: 100%;
+
+                max-width:
+                    calc(100% - 28px);
+
+                margin-top: 24px;
+            }
+
+
+            .page-title {
+
+                font-size: 28px;
+            }
+
+
+            .page-subtitle {
+
+                font-size: 12px;
+            }
+
+
+            .live-layout {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .camera-card {
+
+                height: auto;
+            }
+
+
+            .camera-frame {
+
+                height: 390px;
+            }
+
+
+            .stats-column {
+
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .stat-card {
+
+                height: 105px;
+            }
+
+
+            .falling-decor {
+
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
+    <header class="navbar">
+
+
+        <a
+            href="{{ url_for('home') }}"
+            class="logo"
+        >
+
+            <img
+                src="{{ url_for('static', filename='logo.png') }}"
+                alt="MaskDetect AI Logo"
+                class="logo-shield"
+            >
+
+
+            <span class="logo-text">
+                MaskDetect AI
+            </span>
+
+        </a>
+
+
+        <nav class="nav-links">
+
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+
+            <a
+                href="{{ url_for('detect_hub') }}"
+                class="active"
+            >
+                Detect
+            </a>
+
+
+            <a href="{{ url_for('history_page') }}">
+                History
+            </a>
+
+
+            <a href="{{ url_for('profile_page') }}">
+                Profile
+            </a>
+
+
+        </nav>
+
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+
+    <main class="page">
+
+
+        <!-- BACKGROUND CIRCLES -->
+
+        <div class="bg-circle one"></div>
+
+        <div class="bg-circle two"></div>
+
+        <div class="bg-circle three"></div>
+
+
+        <!-- =================================================
+             FALLING DECORATIONS
+        ================================================= -->
+
+        <div class="falling-decor">
+
+
+            <span
+                class="falling-item falling-square pink fall-1"
+            ></span>
+
+
+            <span
+                class="falling-item falling-line blue fall-2"
+            ></span>
+
+
+            <span
+                class="falling-item falling-dot purple fall-3"
+            ></span>
+
+
+            <span
+                class="falling-item falling-square yellow fall-4"
+            ></span>
+
+
+            <span
+                class="falling-item falling-line cyan fall-5"
+            ></span>
+
+
+            <span
+                class="falling-item falling-dot pink fall-6"
+            ></span>
+
+
+            <span
+                class="falling-item falling-square purple fall-7"
+            ></span>
+
+
+            <span
+                class="falling-item falling-line yellow fall-8"
+            ></span>
+
+
+            <span
+                class="falling-item falling-dot blue fall-9"
+            ></span>
+
+
+            <span
+                class="falling-item falling-square pink fall-10"
+            ></span>
+
+
+            <span
+                class="falling-item falling-line purple fall-11"
+            ></span>
+
+
+            <span
+                class="falling-item falling-dot cyan fall-12"
+            ></span>
+
+
+            <span
+                class="falling-item falling-square yellow fall-13"
+            ></span>
+
+
+            <span
+                class="falling-item falling-line blue fall-14"
+            ></span>
+
+
+            <span
+                class="falling-item falling-dot pink fall-15"
+            ></span>
+
+
+            <span
+                class="falling-item falling-square cyan fall-16"
+            ></span>
+
+
+            <span
+                class="falling-item falling-line pink fall-17"
+            ></span>
+
+
+            <span
+                class="falling-item falling-dot yellow fall-18"
+            ></span>
+
+
+            <span
+                class="falling-item falling-square purple fall-19"
+            ></span>
+
+
+        </div>
+
+
+        <!-- =================================================
+             LIVE DETECTION CONTENT
+        ================================================= -->
+
+        <section class="live-container">
+
+
+            <h1 class="page-title">
+                Live Camera Detection
+            </h1>
+
+
+            <p class="page-subtitle">
+                Real-time face mask detection using your webcam
+            </p>
+
+
+            <div class="live-layout">
+
+
+                <!-- =================================================
+                     CAMERA
+                ================================================= -->
+
+                <div class="camera-card">
+
+
+                    <div class="camera-frame">
+
+
+                        <div class="camera-status">
+
+                            <span class="status-dot"></span>
+
+                            Live Detection
+
+                        </div>
+
+
+                        <img
+                            id="cameraFeed"
+                            src="{{ url_for('video_feed') }}"
+                            alt="Live camera feed"
+                        >
+
+
+                        <div
+                            class="camera-off"
+                            id="cameraOff"
+                        >
+
+
+                            <div class="camera-off-icon">
+                                ✓
+                            </div>
+
+
+                            Camera Stopped
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="camera-actions">
+
+
+                        <button
+                            class="camera-button stop-button"
+                            id="stopCamera"
+                            type="button"
+                        >
+
+                            ■&nbsp; Stop Camera
+
+                        </button>
+
+
+                        <a
+                            href="{{ url_for('detect_hub') }}"
+                            class="camera-button back-button"
+                        >
+
+                            ←&nbsp; Back to Hub
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     STATISTICS
+                ================================================= -->
+
+                <div class="stats-column">
+
+
+                    <!-- TOTAL FACES -->
+
+                    <div class="stat-card">
+
+
+                        <div class="stat-content">
+
+
+                            <div class="stat-label">
+                                Total Faces
+                            </div>
+
+
+                            <div
+                                class="stat-value"
+                                id="totalFaces"
+                            >
+                                0
+                            </div>
+
+
+                        </div>
+
+
+                        <div
+                            class="stat-icon faces-icon"
+                        >
+                            👤
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- WITH MASK -->
+
+                    <div class="stat-card">
+
+
+                        <div class="stat-content">
+
+
+                            <div class="stat-label">
+                                With Mask
+                            </div>
+
+
+                            <div
+                                class="stat-value"
+                                id="withMask"
+                                style="color:#16a765;"
+                            >
+                                0
+                            </div>
+
+
+                        </div>
+
+
+                        <div
+                            class="stat-icon mask-icon"
+                        >
+                            🛡
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- WITHOUT MASK -->
+
+                    <div class="stat-card">
+
+
+                        <div class="stat-content">
+
+
+                            <div class="stat-label">
+                                Without Mask
+                            </div>
+
+
+                            <div
+                                class="stat-value"
+                                id="withoutMask"
+                                style="color:#ef4444;"
+                            >
+                                0
+                            </div>
+
+
+                        </div>
+
+
+                        <div
+                            class="stat-icon no-mask-icon"
+                        >
+                            ⚠
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- MODEL ACCURACY -->
+
+                    <div class="stat-card">
+
+
+                        <div class="stat-content">
+
+
+                            <div class="stat-label">
+                                Model Accuracy
+                            </div>
+
+
+                            <div
+                                class="stat-value"
+                                style="color:#276bea;"
+                                id="accuracy"
+                            >
+                                97.5%
+                            </div>
+
+
+                        </div>
+
+
+                        <div
+                            class="stat-icon accuracy-icon"
+                        >
+                            📊
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
+
+    <script>
+
+
+        const cameraFeed =
+            document.getElementById("cameraFeed");
+
+
+        const cameraOff =
+            document.getElementById("cameraOff");
+
+
+        const stopButton =
+            document.getElementById("stopCamera");
+
+
+        const totalFaces =
+            document.getElementById("totalFaces");
+
+
+        const withMask =
+            document.getElementById("withMask");
+
+
+        const withoutMask =
+            document.getElementById("withoutMask");
+
+
+        const accuracy =
+            document.getElementById("accuracy");
+
+
+        /*
+         * The live video feed continues through the existing
+         * Flask /video_feed route.
+         *
+         * We only hide it when the user presses Stop Camera.
+         */
+
+        stopButton.addEventListener(
+            "click",
+            function () {
+
+
+                cameraFeed.style.display =
+                    "none";
+
+
+                cameraOff.style.display =
+                    "flex";
+
+
+                stopButton.innerHTML =
+                    "▶&nbsp; Start Camera";
+
+
+                stopButton.classList.add(
+                    "start-mode"
+                );
+
+
+                stopButton.style.background =
+                    "linear-gradient(100deg, #7047e9, #398fe9)";
+
+
+                stopButton.onclick =
+                    function () {
+
+                        cameraFeed.src =
+                            "{{ url_for('video_feed') }}"
+                            + "?t="
+                            + new Date().getTime();
+
+
+                        cameraFeed.style.display =
+                            "block";
+
+
+                        cameraOff.style.display =
+                            "none";
+
+
+                        stopButton.innerHTML =
+                            "■&nbsp; Stop Camera";
+
+
+                        stopButton.onclick =
+                            stopCameraAgain;
+
+                    };
+
+            }
+        );
+
+
+        function stopCameraAgain() {
+
+
+            cameraFeed.style.display =
+                "none";
+
+
+            cameraOff.style.display =
+                "flex";
+
+
+            stopButton.innerHTML =
+                "▶&nbsp; Start Camera";
+
+
+            stopButton.onclick =
+                startCameraAgain;
+
+        }
+
+
+        function startCameraAgain() {
+
+
+            cameraFeed.src =
+                "{{ url_for('video_feed') }}"
+                + "?t="
+                + new Date().getTime();
+
+
+            cameraFeed.style.display =
+                "block";
+
+
+            cameraOff.style.display =
+                "none";
+
+
+            stopButton.innerHTML =
+                "■&nbsp; Stop Camera";
+
+
+            stopButton.onclick =
+                stopCameraAgain;
+
+        }
+
+
+        /*
+         * Read the existing Flask /stats endpoint.
+         *
+         * This does not require any change to app.py.
+         */
+
+        async function updateStats() {
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        "{{ url_for('stats') }}"
+                    );
+
+
+                if (!response.ok) {
+                    return;
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                /*
+                 * Supports the common names used by
+                 * the existing live_stats dictionary.
+                 */
+
+                if (
+                    data.total_faces !== undefined
+                ) {
+
+                    totalFaces.textContent =
+                        data.total_faces;
+
+                }
+                else if (
+                    data.total !== undefined
+                ) {
+
+                    totalFaces.textContent =
+                        data.total;
+
+                }
+
+
+                if (
+                    data.with_mask !== undefined
+                ) {
+
+                    withMask.textContent =
+                        data.with_mask;
+
+                }
+                else if (
+                    data.mask !== undefined
+                ) {
+
+                    withMask.textContent =
+                        data.mask;
+
+                }
+
+
+                if (
+                    data.without_mask !== undefined
+                ) {
+
+                    withoutMask.textContent =
+                        data.without_mask;
+
+                }
+                else if (
+                    data.no_mask !== undefined
+                ) {
+
+                    withoutMask.textContent =
+                        data.no_mask;
+
+                }
+
+
+                if (
+                    data.accuracy !== undefined
+                ) {
+
+                    let acc =
+                        data.accuracy;
+
+
+                    if (
+                        typeof acc === "number"
+                    ) {
+
+                        if (acc <= 1) {
+                            acc = acc * 100;
+                        }
+
+
+                        accuracy.textContent =
+                            acc.toFixed(1) + "%";
+
+                    }
+                    else {
+
+                        accuracy.textContent =
+                            acc;
+
+                    }
+
+                }
+
+
+            }
+            catch (error) {
+
+                console.log(
+                    "Stats update:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        updateStats();
+
+
+        setInterval(
+            updateStats,
+            1000
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
